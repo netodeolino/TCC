@@ -32,7 +32,7 @@ print(len(teste))
 #	print (l)
 
 
-def transformaEmString(lista):
+def transformaListEmString(lista):
 	aux = ""
 	for strCelula in lista:
 		for strIterator in strCelula:
@@ -41,16 +41,10 @@ def transformaEmString(lista):
 
 def extrair(string, inicio):
 	aux = ""
-
-	# - Criar uma função para tratar essa eliminação de espaços
-	inicioDaString = inicio
-	if (string[inicioDaString] == " "):
-		while (string[inicioDaString] == " "):
-			inicioDaString = inicioDaString+1 
 	
 	# - Início real da função de extração
 	# - Precisa fazer o processo de excluir da string os dados retornados aqui
-	i = inicioDaString;
+	i = inicio;
 	while i < len(string):
 		if (string[i] != "."):
 			aux += string[i]
@@ -62,7 +56,7 @@ def extrair(string, inicio):
 	print (aux)
 
 
-# Recebe a string toda de uma linha do HISTÓRICO DA OCORRÊNCIA
+# Recebe a string completa de uma linha do HISTÓRICO DA OCORRÊNCIA
 def extrairEntrePontos(string):
 	i = 0;
 	while i < len(string):
@@ -74,7 +68,17 @@ def extrairEntrePontos(string):
 		i += 1
 
 
-stringLinha = transformaEmString(teste[0])
+# - Função para retirar espaços do início da string que irá ser extraída
+def tirarEspacosDoInicio(string, inicio):
+	
+	inicioDaString = inicio
+	if (string[inicioDaString] == " "):
+		while (string[inicioDaString] == " "):
+			inicioDaString = inicioDaString+1
+	return inicioDaString
+
+
+stringLinha = transformaListEmString(teste[0])
 print (stringLinha)
 
 posicaoIni = stringLinha.find("ARMA APREENDIDA:")
@@ -82,4 +86,8 @@ posicaoIni = posicaoIni + len("ARMA APREENDIDA:")
 #print (posicaoIni)
 
 #extrairEntrePontos(stringLinha)
+
+# - Teste da função para tirar espaços desnecessários do início da string
+posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+
 extrair(stringLinha, posicaoIni)
