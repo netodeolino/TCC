@@ -2,12 +2,16 @@
 import numpy as np
 import pandas
 
-#Global (global nomeVariavel)
+# - Global (global nomeVariavel)
 tes = pandas.read_csv("./tabula-01-jan-17.csv")
+lista = []
 teste = []
-list = []
+entidades = [
+				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
+				"MATERIAL APREENDIDO:", "PLACA:"
+			]
 
-
+# - Tirando as outras 2 colunas
 del tes['FONTE']
 del tes['NATUREZA DA OCORRÊNCIA']
 
@@ -15,22 +19,25 @@ del tes['NATUREZA DA OCORRÊNCIA']
 #for i in tes.iterrows():
 #	print (i)
 
-
+# - Salva em 'lista' as linhas de HISTÓRICO DA OCORRÊNCIA
 for i, row in tes.iterrows():
 	if row['HISTÓRICO DA OCORRÊNCIA']:
-		list.append(tes.loc[i,:])
+		lista.append(tes.loc[i,:])
 
-
-for k in list:
+# - Salva em 'teste' as linhas de 'lista'
+for k in lista:
 	#print (k.values)
 	teste.append(k.values)
 
-print(len(teste))
+# - Teste da quantidade de linhas
+#print(len(teste))
 #print(type(teste[0]))
 
 #for l in teste[0]:
 #	print (l)
 
+def excluirTextoDaString(string, inicio, fim):
+	pass
 
 def transformaListEmString(lista):
 	aux = ""
@@ -51,6 +58,7 @@ def extrair(string, inicio):
 		if (string[i] == "."):
 			break
 		i += 1
+	# - Quebra de linha visual, depois excluir
 	print ("\n")
 	# - Depois usar um 'return' ao invés de só imprimir
 	print (aux)
@@ -68,7 +76,7 @@ def extrairEntrePontos(string):
 		i += 1
 
 
-# - Função para retirar espaços do início da string que irá ser extraída
+# - Função para retirar espaços do início da string que irá ser extraída. Depois tratar caso de dois pontos ':'
 def tirarEspacosDoInicio(string, inicio):
 	
 	inicioDaString = inicio
@@ -78,16 +86,57 @@ def tirarEspacosDoInicio(string, inicio):
 	return inicioDaString
 
 
-stringLinha = transformaListEmString(teste[0])
-print (stringLinha)
+# - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
+def extrairUmaEntidade(teste, entidade):
+	t = 0
+	while t < len(teste):
+		stringLinha = transformaListEmString(teste[t])
+		print (stringLinha)
 
-posicaoIni = stringLinha.find("ARMA APREENDIDA:")
-posicaoIni = posicaoIni + len("ARMA APREENDIDA:")
+		posicaoIni = stringLinha.find(entidade)
+		posicaoIni = posicaoIni + len(entidade)
+
+		posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+
+		extrair(stringLinha, posicaoIni)
+
+		t += 1
+
+# - Extrai todas entidades, porém tem que tratar o caso de quando a entidade não existe
+def extrairTodasEntidades(teste):
+	t = 0
+	while t < len(teste):
+		stringLinha = transformaListEmString(teste[t])
+		print (stringLinha)
+
+		for e in entidades:
+			posicaoIni = stringLinha.find(e)
+			posicaoIni = posicaoIni + len(e)
+
+			posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+
+			extrair(stringLinha, posicaoIni)
+		t += 1
+
+
+# - teste[0] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a transformação
+#stringLinha = transformaListEmString(teste[0])
+#print (stringLinha)
+
+
+#posicaoIni = stringLinha.find("ARMA APREENDIDA:")
+#posicaoIni = posicaoIni + len("ARMA APREENDIDA:")
 #print (posicaoIni)
 
 #extrairEntrePontos(stringLinha)
 
-# - Teste da função para tirar espaços desnecessários do início da string
-posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+# - Tira os espaços desnecessários do início da string
+#posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
-extrair(stringLinha, posicaoIni)
+# - Faz o processo de extração
+#extrair(stringLinha, posicaoIni)
+
+
+#extrairUmaEntidade(teste, "LOCAL:")
+
+extrairTodasEntidades(teste)
