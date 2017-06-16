@@ -3,17 +3,21 @@ import numpy as np
 import pandas
 
 # - Global (global nomeVariavel)
-tes = pandas.read_csv("./tabula-07-jan-17.csv")
+mes = "jan"
+listDiasMes = ["01", "02", "03", "04", "05", "06", "07", "08", "10", "12", "14", "15", "16", "17", "19", "20",
+				"21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
+#tes = None
+tes = pandas.read_csv("./tabula-07-" + mes + "-17.csv")
 lista = []
-teste = []
+arrayLinha = []
 entidades = [
 				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
 				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS", "SUSPEITOS:"
 			]
 
 # - Tirando as outras 2 colunas
-del tes['FONTE']
-del tes['NATUREZA DA OCORRÊNCIA']
+del tes["FONTE"]
+del tes["NATUREZA DA OCORRÊNCIA"]
 
 
 #for i in tes.iterrows():
@@ -24,16 +28,16 @@ for i, row in tes.iterrows():
 	if row['HISTÓRICO DA OCORRÊNCIA']:
 		lista.append(tes.loc[i,:])
 
-# - Salva em 'teste' as linhas de 'lista'
+# - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
 for k in lista:
 	#print (k.values)
-	teste.append(k.values)
+	arrayLinha.append(k.values)
 
 # - Verificando quantidade de linhas
-#print(len(teste))
-#print(type(teste[0]))
+#print(len(arrayLinha))
+#print(type(arrayLinha[0]))
 
-#for l in teste[0]:
+#for l in arrayLinha[0]:
 #	print (l)
 
 # - Remover da stringLinha os dados que foram extraídos dela?
@@ -41,7 +45,7 @@ def excluirTextoDaString(string, inicio, fim):
 	pass
 
 
-def transformaListEmString(lista):
+def transformaArrayEmString(lista):
 	aux = ""
 	for strCelula in lista:
 		for strIterator in strCelula:
@@ -91,10 +95,10 @@ def tirarEspacosDoInicio(string, inicio):
 
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
-def extrairUmaEntidade(teste, entidade):
+def extrairUmaEntidade(arrayLinha, entidade):
 	t = 0
-	while t < len(teste):
-		stringLinha = transformaListEmString(teste[t])
+	while t < len(arrayLinha):
+		stringLinha = transformaArrayEmString(arrayLinha[t])
 		print (stringLinha)
 
 		posicaoIni = stringLinha.find(entidade)
@@ -110,9 +114,9 @@ def extrairUmaEntidade(teste, entidade):
 		t += 1
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
-def extrairUmaEntidadeEmUmaLinha(teste, entidade, posicao):
-	# - teste[posicao] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
-	stringLinha = transformaListEmString(teste[posicao])
+def extrairUmaEntidadeEmUmaLinha(arrayLinha, entidade, posicao):
+	# - arrayLinha[posicao] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
+	stringLinha = transformaArrayEmString(arrayLinha[posicao])
 	print (stringLinha + "\n")
 
 	posicaoIni = stringLinha.find(entidade)
@@ -129,11 +133,11 @@ def extrairUmaEntidadeEmUmaLinha(teste, entidade, posicao):
 
 
 # - Extrai todas entidades, porém tem que tratar o caso de quando a entidade não existe
-def extrairTodasEntidades(teste):
+def extrairTodasEntidades(arrayLinha):
 	t = 0
-	while t < len(teste):
-		# - teste[t] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
-		stringLinha = transformaListEmString(teste[t])
+	while t < len(arrayLinha):
+		# - arrayLinha[t] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
+		stringLinha = transformaArrayEmString(arrayLinha[t])
 		print (stringLinha  + "\n")
 
 		for entidade in entidades:
@@ -157,8 +161,8 @@ def extrairTodasEntidades(teste):
 # - Faz o processo de extração
 #extrair(stringLinha, posicaoIni)
 
-#extrairUmaEntidade(teste, "SUSPEITO:")
+#extrairUmaEntidade(arrayLinha, "SUSPEITO:")
 
-extrairTodasEntidades(teste)
+extrairTodasEntidades(arrayLinha)
 
-#extrairUmaEntidadeEmUmaLinha(teste, "ARMA APREENDIDA:", 10)
+#extrairUmaEntidadeEmUmaLinha(arrayLinha, "ARMA APREENDIDA:", 10)
