@@ -8,7 +8,7 @@ lista = []
 teste = []
 entidades = [
 				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
-				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:"
+				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS"
 			]
 
 # - Tirando as outras 2 colunas
@@ -58,7 +58,6 @@ def extrair(string, inicio, entidade):
 		if (string[i] == "."):
 			break
 		i += 1
-	# - Quebra de linha visual, depois excluir
 
 	# - Depois usar um 'return' ao invés de só imprimir
 	print (entidade + " " + aux)
@@ -107,6 +106,7 @@ def extrairUmaEntidade(teste, entidade):
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
 def extrairUmaEntidadeEmUmaLinha(teste, entidade, posicao):
+	# - teste[posicao] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
 	stringLinha = transformaListEmString(teste[posicao])
 	print (stringLinha + "\n")
 
@@ -117,6 +117,7 @@ def extrairUmaEntidadeEmUmaLinha(teste, entidade, posicao):
 	else:
 		posicaoIni = posicaoIni + len(entidade)
 	
+		# - Tira os espaços desnecessários do início da string
 		posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
 		extrair(stringLinha, posicaoIni, entidade)
@@ -126,6 +127,7 @@ def extrairUmaEntidadeEmUmaLinha(teste, entidade, posicao):
 def extrairTodasEntidades(teste):
 	t = 0
 	while t < len(teste):
+		# - teste[t] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
 		stringLinha = transformaListEmString(teste[t])
 		print (stringLinha  + "\n")
 
@@ -137,6 +139,7 @@ def extrairTodasEntidades(teste):
 			else:
 				posicaoIni = posicaoIni + len(entidade)
 
+				# - Tira os espaços desnecessários do início da string
 				posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
 				extrair(stringLinha, posicaoIni, entidade)
@@ -144,23 +147,10 @@ def extrairTodasEntidades(teste):
 		t += 1
 
 
-# - teste[0] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a transformação
-#stringLinha = transformaListEmString(teste[0])
-#print (stringLinha)
-
-
-#posicaoIni = stringLinha.find("ARMA APREENDIDA:")
-#posicaoIni = posicaoIni + len("ARMA APREENDIDA:")
-#print (posicaoIni)
-
 #extrairEntrePontos(stringLinha)
-
-# - Tira os espaços desnecessários do início da string
-#posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
 # - Faz o processo de extração
 #extrair(stringLinha, posicaoIni)
-
 
 #extrairUmaEntidade(teste, "SUSPEITO:")
 
