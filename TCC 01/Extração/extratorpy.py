@@ -3,12 +3,12 @@ import numpy as np
 import pandas
 
 # - Global (global nomeVariavel)
-tes = pandas.read_csv("./tabula-01-jan-17.csv")
+tes = pandas.read_csv("./tabula-07-jan-17.csv")
 lista = []
 teste = []
 entidades = [
 				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
-				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS"
+				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS", "SUSPEITOS:"
 			]
 
 # - Tirando as outras 2 colunas
@@ -29,15 +29,17 @@ for k in lista:
 	#print (k.values)
 	teste.append(k.values)
 
-# - Teste da quantidade de linhas
+# - Verificando quantidade de linhas
 #print(len(teste))
 #print(type(teste[0]))
 
 #for l in teste[0]:
 #	print (l)
 
+# - Remover da stringLinha os dados que foram extraídos dela?
 def excluirTextoDaString(string, inicio, fim):
 	pass
+
 
 def transformaListEmString(lista):
 	aux = ""
@@ -46,16 +48,19 @@ def transformaListEmString(lista):
 			aux += strIterator
 	return aux
 
+
+# - Início real da função de extração
+# - Precisa fazer o processo de excluir da string os dados retornados aqui
 def extrair(string, inicio, entidade):
 	aux = ""
 	
-	# - Início real da função de extração
-	# - Precisa fazer o processo de excluir da string os dados retornados aqui
 	i = inicio;
 	while i < len(string):
 		if (string[i] != "."):
 			aux += string[i]
-		if (string[i] == "."):
+		if ((string[i] == ".") and (string[i-1] == "V")):
+			aux += string[i]
+		if (string[i] == ".") and (string[i-1] != "V"):
 			break
 		i += 1
 
