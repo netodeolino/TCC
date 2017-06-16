@@ -8,7 +8,7 @@ lista = []
 teste = []
 entidades = [
 				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
-				"MATERIAL APREENDIDO:", "PLACA:"
+				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:"
 			]
 
 # - Tirando as outras 2 colunas
@@ -46,7 +46,7 @@ def transformaListEmString(lista):
 			aux += strIterator
 	return aux
 
-def extrair(string, inicio):
+def extrair(string, inicio, entidade):
 	aux = ""
 	
 	# - Início real da função de extração
@@ -59,9 +59,9 @@ def extrair(string, inicio):
 			break
 		i += 1
 	# - Quebra de linha visual, depois excluir
-	print ("\n")
+
 	# - Depois usar um 'return' ao invés de só imprimir
-	print (aux)
+	print (entidade + " " + aux)
 
 
 # Recebe a string completa de uma linha do HISTÓRICO DA OCORRÊNCIA
@@ -94,28 +94,53 @@ def extrairUmaEntidade(teste, entidade):
 		print (stringLinha)
 
 		posicaoIni = stringLinha.find(entidade)
-		posicaoIni = posicaoIni + len(entidade)
 
+		if (posicaoIni == -1):
+			print (entidade + " NÃO POSSUI ESSA INFORMAÇÃO")
+		else:
+			posicaoIni = posicaoIni + len(entidade)
+		
+			posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+
+			extrair(stringLinha, posicaoIni, entidade)
+		t += 1
+
+# - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
+def extrairUmaEntidadeEmUmaLinha(teste, entidade, posicao):
+	stringLinha = transformaListEmString(teste[posicao])
+	print (stringLinha + "\n")
+
+	posicaoIni = stringLinha.find(entidade)
+
+	if (posicaoIni == -1):
+		print (entidade + " NÃO POSSUI ESSA INFORMAÇÃO")
+	else:
+		posicaoIni = posicaoIni + len(entidade)
+	
 		posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
-		extrair(stringLinha, posicaoIni)
+		extrair(stringLinha, posicaoIni, entidade)
 
-		t += 1
 
 # - Extrai todas entidades, porém tem que tratar o caso de quando a entidade não existe
 def extrairTodasEntidades(teste):
 	t = 0
 	while t < len(teste):
 		stringLinha = transformaListEmString(teste[t])
-		print (stringLinha)
+		print (stringLinha  + "\n")
 
-		for e in entidades:
-			posicaoIni = stringLinha.find(e)
-			posicaoIni = posicaoIni + len(e)
+		for entidade in entidades:
+			posicaoIni = stringLinha.find(entidade)
 
-			posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+			if (posicaoIni == -1):
+				print (entidade + " NÃO POSSUI ESSA INFORMAÇÃO")
+			else:
+				posicaoIni = posicaoIni + len(entidade)
 
-			extrair(stringLinha, posicaoIni)
+				posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
+
+				extrair(stringLinha, posicaoIni, entidade)
+		print ("\n")
 		t += 1
 
 
@@ -137,6 +162,8 @@ def extrairTodasEntidades(teste):
 #extrair(stringLinha, posicaoIni)
 
 
-#extrairUmaEntidade(teste, "LOCAL:")
+#extrairUmaEntidade(teste, "SUSPEITO:")
 
 extrairTodasEntidades(teste)
+
+#extrairUmaEntidadeEmUmaLinha(teste, "ARMA APREENDIDA:", 10)
