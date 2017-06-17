@@ -13,7 +13,9 @@ mes = "jan"
 listDiasMes = ["01", "02", "03", "04", "05", "06", "07", "08", "10", "12", "14", "15", "16", "17", "19", "20",
 				"21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
 
-tes = pandas.read_csv("./tabula-07-" + mes + "-17.csv")
+dataFrameInicial = pandas.read_csv("./tabula-07-" + mes + "-17.csv")
+dataFrameOriginal = dataFrameInicial
+
 lista = []
 arrayLinha = []
 entidades = [
@@ -22,14 +24,15 @@ entidades = [
 			]
 
 # - Tirando as outras 2 colunas
-del tes["FONTE"]
-del tes["NATUREZA DA OCORRÊNCIA"]
+del dataFrameInicial["FONTE"]
+del dataFrameInicial["NATUREZA DA OCORRÊNCIA"]
 
 
 # - Salva em 'lista' as linhas de HISTÓRICO DA OCORRÊNCIA
-for i, row in tes.iterrows():
+for i, row in dataFrameInicial.iterrows():
 	if row['HISTÓRICO DA OCORRÊNCIA']:
-		lista.append(tes.loc[i,:])
+		lista.append(dataFrameInicial.loc[i,:])
+
 
 # - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
 for k in lista:
@@ -54,6 +57,7 @@ def transformaArrayEmString(lista):
 # - Início real da função de extração
 # - Precisa fazer o processo de excluir da string os dados retornados aqui
 def extrair(string, inicio, entidade):
+	global listaFinal
 	aux = ""
 	
 	i = inicio;
@@ -93,8 +97,6 @@ def tirarEspacosDoInicio(string, inicio):
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
 def extrairUmaEntidade(arrayLinha, entidade):
-	global ENTIDADE_VAZIA
-	global ENTIDADE_NAO_ENCOTRADA
 
 	t = 0
 	while t < len(arrayLinha):
@@ -117,8 +119,6 @@ def extrairUmaEntidade(arrayLinha, entidade):
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
 def extrairUmaEntidadeEmUmaLinha(arrayLinha, entidade, posicao):
-	global ENTIDADE_VAZIA
-	global ENTIDADE_NAO_ENCOTRADA
 
 	# - arrayLinha[posicao] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
 	stringLinha = transformaArrayEmString(arrayLinha[posicao])
@@ -137,10 +137,8 @@ def extrairUmaEntidadeEmUmaLinha(arrayLinha, entidade, posicao):
 		extrair(stringLinha, posicaoIni, entidade)
 
 
-# - Extrai todas entidades, porém tem que tratar o caso de quando a entidade não existe
+# - Extrai todas entidades, porém tem que tratar o caso de quando a entidade não existe, por enquanto imprime um texto
 def extrairTodasEntidades(arrayLinha):
-	global ENTIDADE_VAZIA
-	global ENTIDADE_NAO_ENCOTRADA
 
 	t = 0
 	while t < len(arrayLinha):
@@ -172,7 +170,7 @@ def extrairTodasEntidades(arrayLinha):
 #	print (l)
 
 
-#for i in tes.iterrows():
+#for i in dataFrameInicial.iterrows():
 #	print (i)
 
 
@@ -183,6 +181,12 @@ def extrairTodasEntidades(arrayLinha):
 
 #extrairUmaEntidade(arrayLinha, "SUSPEITO:")
 
-extrairTodasEntidades(arrayLinha)
+#print (type(listaFinal))
 
 #extrairUmaEntidadeEmUmaLinha(arrayLinha, "ARMA APREENDIDA:", 10)
+
+#extrairTodasEntidades(arrayLinha)
+
+
+def salvarNovoCSV(dataFrameOriginal, string, entidade):
+	
