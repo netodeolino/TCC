@@ -13,8 +13,8 @@ mes = "jan"
 listDiasMes = ["01", "02", "03", "04", "05", "06", "07", "08", "10", "12", "14", "15", "16", "17", "19", "20",
 				"21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
 
-dataFrameInicial = pandas.read_csv("./tabula-07-" + mes + "-17.csv")
-dataFrameOriginal = dataFrameInicial
+dataFrameInicial = pandas.read_csv("./tabula-01-" + mes + "-17.csv")
+dataFrameOriginal = dataFrameInicial.copy()
 
 lista = []
 arrayLinha = []
@@ -215,8 +215,8 @@ def main():
 	while e < len(entidades):
 		inserirValorNoDataFrame(entidades[e])
 		e += 1
-	# - Consertar para salvar de acordo com o dia/mês lido
-	dataFrameOriginal.to_csv('./teste.csv')
+	# - Consertar para salvar de acordo com o dia lido
+	dataFrameOriginal.to_csv("./novo-tabula-01-" + mes + "-17.csv")
 
 
 main()
