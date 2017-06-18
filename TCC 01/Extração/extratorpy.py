@@ -5,7 +5,7 @@ import pandas
 
 # - Variáveis globais (global nomeVariavel)
 ENTIDADE_NAO_ENCOTRADA = -1
-ENTIDADE_VAZIA = " NÃO POSSUI ESSA INFORMAÇÃO"
+ENTIDADE_VAZIA = "NÃO POSSUI ESSA INFORMAÇÃO"
 
 
 # - Valores para agilizar no processo de ler vários .CSV's por vez
@@ -20,7 +20,7 @@ lista = []
 arrayLinha = []
 entidades = [
 				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
-				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS", "SUSPEITOS:"
+				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS:", "SUSPEITOS:"
 			]
 
 # - Tirando as outras 2 colunas
@@ -36,21 +36,7 @@ for i, row in dataFrameInicial.iterrows():
 
 # - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
 for k in lista:
-	#print (k.values)
 	arrayLinha.append(k.values)
-
-
-# - Remover da stringLinha os dados que foram extraídos dela?
-def excluirTextoDaString(string, inicio, fim):
-	pass
-
-
-# - Função de teste salvar
-def salvarNovoCSV(valores, entidade):
-	#print (valores)
-	dataFrameOriginal[entidade] = pandas.Series(valores)
-
-	dataFrameOriginal.to_csv('./teste.csv')
 
 
 # - arrayLinha[posicao] é do tipo narra, por isso, para facilitar, é feito a conversão para string
@@ -115,7 +101,7 @@ def tirarEspacosDoInicio(string, inicio):
 	inicioDaString = inicio
 	if (string[inicioDaString] == " "):
 		while (string[inicioDaString] == " "):
-			inicioDaString = inicioDaString+1
+			inicioDaString = inicioDaString + 1
 	return inicioDaString
 
 
@@ -129,7 +115,6 @@ def extrairUmaEntidade(arrayLinha, entidade):
 
 		posicaoIni = stringLinha.find(entidade)
 
-		# - Se não existe a entidade o valor retornada pelo find é -1
 		if (posicaoIni == ENTIDADE_NAO_ENCOTRADA):
 			print (entidade + ENTIDADE_VAZIA)
 		else:
@@ -139,9 +124,7 @@ def extrairUmaEntidade(arrayLinha, entidade):
 
 			extrair(stringLinha, posicaoIni, entidade)
 			#dadoDaEntidade = extrairRetornar(stringLinha, posicaoIni)
-			#valoresUmaEntidade.append(dadoDaEntidade)
 
-			#salvarNovoCSV(valoresUmaEntidade, entidade)
 		t += 1
 
 
@@ -154,7 +137,6 @@ def extrairTodasEntidadesDeUmaLinha(string):
 	for entidade in entidades:
 		posicaoIni = string.find(entidade)
 
-		# - Se não existe a entidade o valor retornada pelo find é -1
 		if (posicaoIni != ENTIDADE_NAO_ENCOTRADA):
 			posicaoIni = posicaoIni + len(entidade)
 
@@ -168,23 +150,22 @@ def extrairTodasEntidadesDeUmaLinha(string):
 
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
-def extrairUmaEntidadeEmUmaLinha(arrayLinha, entidade, posicao):
+def extrairUmaEntidadeDeUmaLinha(arrayLinha, entidade, posicao):
 
 	# - arrayLinha[posicao] é do tipo narray, e anteriormente list, por isso, para facilitar, é feito a conversão para string
 	stringLinha = transformaArrayEmString(arrayLinha[posicao])
-	print (stringLinha + "\n")
 
 	posicaoIni = stringLinha.find(entidade)
 
 	if (posicaoIni == ENTIDADE_NAO_ENCOTRADA):
-		print (entidade + ENTIDADE_VAZIA)
+		return ENTIDADE_VAZIA
 	else:
 		posicaoIni = posicaoIni + len(entidade)
 	
-		# - Tira os espaços desnecessários do início da string antes dela ser extraída
 		posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
-		extrair(stringLinha, posicaoIni, entidade)
+		#extrair(stringLinha, posicaoIni, entidade)
+		return extrairRetornar(stringLinha, posicaoIni)
 
 
 # - Extrai todas entidades, porém tem que tratar o caso de quando a entidade não existe, por enquanto imprime um texto
@@ -213,28 +194,53 @@ def extrairTodasEntidades(arrayLinha):
 		t += 1
 
 
-# - Verificando quantidade de linhas
+# - Recebe uma entidade e, a partir dos dados HISTÓRICO DA OCORRÊNCIA 'arrayLinha', recupera os dados da entidade e salva
+#   em um DataFrame
+def inserirValorNoDataFrame(entidade):
+	listaValores = []
+
+	t = 0
+	while t < len(arrayLinha):
+		valo = extrairUmaEntidadeDeUmaLinha(arrayLinha, entidade, t)
+		listaValores.append(valo)
+		t += 1
+
+	dataFrameOriginal[entidade] = pandas.Series(listaValores)
+
+
+# - Função que simula a função inicial (def __init__:)
+# - Insere os valores nas colunas correspondentes e salva em um arquivo .CSV
+def main():	
+	e = 0
+	while e < len(entidades):
+		inserirValorNoDataFrame(entidades[e])
+		e += 1
+	# - Consertar para salvar de acordo com o dia/mês lido
+	dataFrameOriginal.to_csv('./teste.csv')
+
+
+main()
+
+
+# ------------------ Teste e Debug -------------------------------
+
 #print(len(arrayLinha))
 #print(type(arrayLinha[0]))
 
 #for l in arrayLinha[0]:
 #	print (l)
 
-
 #for i in dataFrameInicial.iterrows():
 #	print (i)
 
-
 #extrairEntrePontos(stringLinha)
 
-# - Faz o processo de extração
 #extrair(stringLinha, posicaoIni)
 
 #extrairUmaEntidade(arrayLinha, "SUSPEITO:")
 
 #print (type(listaFinal))
 
-#extrairUmaEntidadeEmUmaLinha(arrayLinha, "ARMA APREENDIDA:", 10)
+#extrairUmaEntidadeDeUmaLinha(arrayLinha, "ARMA APREENDIDA:", 10)
 
-extrairTodasEntidades(arrayLinha)
-
+#extrairTodasEntidades(arrayLinha)
