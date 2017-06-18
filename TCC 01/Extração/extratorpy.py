@@ -45,6 +45,14 @@ def excluirTextoDaString(string, inicio, fim):
 	pass
 
 
+# - Função de teste salvar
+def salvarNovoCSV(valores, entidade):
+	#print (valores)
+	dataFrameOriginal[entidade] = pandas.Series(valores)
+
+	dataFrameOriginal.to_csv('./teste.csv')
+
+
 # - arrayLinha[posicao] é do tipo narra, por isso, para facilitar, é feito a conversão para string
 def transformaArrayEmString(lista):
 	aux = ""
@@ -57,7 +65,6 @@ def transformaArrayEmString(lista):
 # - Início real da função de extração
 # - Precisa fazer o processo de excluir da string os dados retornados aqui
 def extrair(string, inicio, entidade):
-	global listaFinal
 	aux = ""
 	
 	i = inicio;
@@ -70,8 +77,25 @@ def extrair(string, inicio, entidade):
 			break
 		i += 1
 
-	# - Depois usar um 'return' ao invés de só imprimir
 	print (entidade + " " + aux)
+
+
+# - Início real da função de extração
+# - Precisa fazer o processo de excluir da string os dados retornados aqui
+def extrairRetornar(string, inicio):
+	aux = ""
+	
+	i = inicio;
+	while i < len(string):
+		if (string[i] != "."):
+			aux += string[i]
+		if ((string[i] == ".") and (string[i-1] == "V")):
+			aux += string[i]
+		if (string[i] == ".") and (string[i-1] != "V"):
+			break
+		i += 1
+
+	return aux
 
 
 # - Recebe a string completa de uma linha do HISTÓRICO DA OCORRÊNCIA e extrai a partir do primeiro ':'
@@ -114,7 +138,33 @@ def extrairUmaEntidade(arrayLinha, entidade):
 			posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
 			extrair(stringLinha, posicaoIni, entidade)
+			#dadoDaEntidade = extrairRetornar(stringLinha, posicaoIni)
+			#valoresUmaEntidade.append(dadoDaEntidade)
+
+			#salvarNovoCSV(valoresUmaEntidade, entidade)
 		t += 1
+
+
+# - Extrai várias entidades, porém tem que tratar o caso de quando a entidade não existe
+def extrairTodasEntidadesDeUmaLinha(string):
+
+	listaEntidades = []
+	string = transformaArrayEmString(string)
+
+	for entidade in entidades:
+		posicaoIni = string.find(entidade)
+
+		# - Se não existe a entidade o valor retornada pelo find é -1
+		if (posicaoIni != ENTIDADE_NAO_ENCOTRADA):
+			posicaoIni = posicaoIni + len(entidade)
+
+			posicaoIni = tirarEspacosDoInicio(string, posicaoIni)
+
+			#extrair(stringLinha, posicaoIni, entidade)
+			valorDaEntidade = extrairRetornar(string, posicaoIni)
+			listaEntidades.append(valorDaEntidade)
+
+	return listaEntidades
 
 
 # - Extrai uma entidade, porém tem que tratar o caso de quando a entidade não existe
@@ -147,6 +197,7 @@ def extrairTodasEntidades(arrayLinha):
 		print (stringLinha  + "\n")
 
 		for entidade in entidades:
+
 			posicaoIni = stringLinha.find(entidade)
 
 			if (posicaoIni == ENTIDADE_NAO_ENCOTRADA):
@@ -154,10 +205,10 @@ def extrairTodasEntidades(arrayLinha):
 			else:
 				posicaoIni = posicaoIni + len(entidade)
 
-				# - Tira os espaços desnecessários do início da string
 				posicaoIni = tirarEspacosDoInicio(stringLinha, posicaoIni)
 
 				extrair(stringLinha, posicaoIni, entidade)
+				#dadoDaEntidade = extrairRetornar(stringLinha, posicaoIni)
 		print ("\n")
 		t += 1
 
@@ -185,8 +236,5 @@ def extrairTodasEntidades(arrayLinha):
 
 #extrairUmaEntidadeEmUmaLinha(arrayLinha, "ARMA APREENDIDA:", 10)
 
-#extrairTodasEntidades(arrayLinha)
+extrairTodasEntidades(arrayLinha)
 
-
-def salvarNovoCSV(dataFrameOriginal, string, entidade):
-	
