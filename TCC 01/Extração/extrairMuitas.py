@@ -7,6 +7,10 @@ import pandas
 ENTIDADE_NAO_ENCOTRADA = -1
 ENTIDADE_VAZIA = "NÃO POSSUI ESSA INFORMAÇÃO"
 
+entidades = [
+				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
+				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS:", "SUSPEITOS:"
+			]
 
 # - arrayLinha[posicao] é do tipo narra, por isso, para facilitar, é feito a conversão para string
 def transformaArrayEmString(lista):
@@ -51,6 +55,25 @@ def extrairRetornar(string, inicio):
 		i += 1
 
 	return aux
+
+
+# - Função para retirar os ruidos de uma string
+def eliminarRuidos(string):
+	novaString = ""
+
+	i = 0
+	while i < len(string):
+		if (string[i] == "."):
+			novaString += " "
+		elif (string[i] == ","):
+			novaString += " "
+		elif (string[i] == ";"):
+			novaString += " "
+		else:
+			novaString += string[i]
+		i += 1
+
+	return novaString
 
 
 # - Recebe a string completa de uma linha do HISTÓRICO DA OCORRÊNCIA e extrai a partir do primeiro ':'
@@ -191,10 +214,6 @@ def main():
 
 		lista = []
 		arrayLinha = []
-		entidades = [
-						"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
-						"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS:", "SUSPEITOS:"
-					]
 
 		# - Tirando as outras 2 colunas
 		del dataFrameInicial["FONTE"]
@@ -217,7 +236,6 @@ def main():
 			inserirValorNoDataFrame(entidades[e], arrayLinha, dataFrameOriginal)
 			e += 1
 		
-		# - Consertar para salvar de acordo com o dia lido
 		dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv")
 
 
@@ -227,23 +245,3 @@ if __name__ == '__main__':
 
 # ------------------ Teste e Debug -------------------------------
 
-#print(len(arrayLinha))
-#print(type(arrayLinha[0]))
-
-#for l in arrayLinha[0]:
-#	print (l)
-
-#for i in dataFrameInicial.iterrows():
-#	print (i)
-
-#extrairEntrePontos(stringLinha)
-
-#extrair(stringLinha, posicaoIni)
-
-#extrairUmaEntidade(arrayLinha, "SUSPEITO:")
-
-#print (type(listaFinal))
-
-#extrairUmaEntidadeDeUmaLinha(arrayLinha, "ARMA APREENDIDA:", 10)
-
-#extrairTodasEntidades(arrayLinha)
