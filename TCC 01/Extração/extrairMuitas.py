@@ -186,6 +186,25 @@ def extrairTodasEntidades(arrayLinha):
 		t += 1
 
 
+# - Função para salvar as datas dos crimes
+def inserirData(arrayLinha, dia, mes, dataFrameOriginal):
+	listaDeDatas = []
+	
+	if mes == "jan":
+		data = dia + "/01/2017"
+	elif mes == "fev":
+		data = dia + "/02/2017"
+	elif mes == "mar":
+		data = dia + "/03/2017"
+	else:
+		data = dia + "/04/2017"
+
+	for linha in arrayLinha:
+		listaDeDatas.append(data)
+
+	dataFrameOriginal["DATA"] = pandas.Series(listaDeDatas)
+
+
 # - Recebe uma entidade e, a partir dos dados HISTÓRICO DA OCORRÊNCIA 'arrayLinha', recupera os dados da entidade e salva
 #   em um DataFrame
 def inserirValorNoDataFrame(entidade, arrayLinha, dataFrameOriginal):
@@ -230,12 +249,18 @@ def main():
 		for k in lista:
 			arrayLinha.append(k.values)
 
-
+		# - Para cada entidade insere o valor das linhas no DataFrame que vai, no fim, ser salvo
 		e = 0
 		while e < len(entidades):
 			inserirValorNoDataFrame(entidades[e], arrayLinha, dataFrameOriginal)
 			e += 1
+
 		
+		# - Cria uma coluna para data e insere nas linhas os valores correspondentes
+		inserirData(arrayLinha, dia, mes, dataFrameOriginal)
+
+
+		# - Última etapa, salvar todas as alterações realizadas em novos arquivos CSVs
 		dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv")
 
 
@@ -244,4 +269,5 @@ if __name__ == '__main__':
 
 
 # ------------------ Teste e Debug -------------------------------
+
 
