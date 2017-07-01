@@ -30,10 +30,18 @@ def extrair(string, inicio, entidade):
 	while i < len(string):
 		if (string[i] != "."):
 			aux += string[i]
+		
 		if ((string[i] == ".") and (string[i-1] == "V")):
-			aux += string[i]
-		if (string[i] == ".") and (string[i-1] != "V"):
+			if ((string[i-1] == "V") and (string[i-2] == "A")):
+				aux += string[i]
+		
+		if ((string[i] == ".") and (string[i-1] == "R")):
+			if ((string[i-1] == "R") and (string[i-2] == "D")):
+				aux += string[i]
+		
+		if ((string[i] == ".") and (string[i-1] != "V")) and ((string[i] == ".") and (string[i-1] != "R")):
 			break
+		
 		i += 1
 
 	print (entidade + " " + aux)
@@ -48,10 +56,18 @@ def extrairRetornar(string, inicio):
 	while i < len(string):
 		if (string[i] != "."):
 			aux += string[i]
+		
 		if ((string[i] == ".") and (string[i-1] == "V")):
-			aux += string[i]
-		if (string[i] == ".") and (string[i-1] != "V"):
+			if ((string[i-1] == "V") and (string[i-2] == "A")):
+				aux += string[i]
+		
+		if ((string[i] == ".") and (string[i-1] == "R")):
+			if ((string[i-1] == "R") and (string[i-2] == "D")):
+				aux += string[i]
+		
+		if ((string[i] == ".") and (string[i-1] != "V")) and ((string[i] == ".") and (string[i-1] != "R")):
 			break
+		
 		i += 1
 
 	return aux
