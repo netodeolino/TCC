@@ -48,7 +48,7 @@ def main():
 		dataFrameInicial["LATITUDE"] = pandas.Series(listaLatitude)
 
 		# - Salva, por fim, o novo arquivo
-		dataFrameInicial.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv")
+		dataFrameInicial.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv", index = False)
 
 
 if __name__ == '__main__':

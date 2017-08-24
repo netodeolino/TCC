@@ -277,7 +277,7 @@ def main():
 
 
 		# - Última etapa, salvar todas as alterações realizadas em novos arquivos CSVs
-		dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv")
+		dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv", index=False)
 
 
 if __name__ == '__main__':

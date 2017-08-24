@@ -232,7 +232,7 @@ def main():
 		inserirValorNoDataFrame(entidades[e])
 		e += 1
 	# - Consertar para salvar de acordo com o dia lido
-	dataFrameOriginal.to_csv("./novo-tabula-01-" + mes + "-17.csv")
+	dataFrameOriginal.to_csv("./novo-tabula-01-" + mes + "-17.csv", index = False)
 
 
 main()
