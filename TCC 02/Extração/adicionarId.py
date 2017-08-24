@@ -18,7 +18,7 @@ def main():
 				'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'DATA', 'LONGITUDE', 'LATITUDE']]
 
 	# Salva o novo arquivo CSV
-	dataFrame.to_csv("./huashuas.csv", index=False)
+	dataFrame.to_csv("./janeiro-crimes.csv", index=False)
 
 if __name__ == '__main__':
 	main()
