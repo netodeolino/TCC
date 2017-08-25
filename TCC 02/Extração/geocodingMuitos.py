@@ -44,8 +44,8 @@ def main():
 			listaLatitude.append(latitude)
 			a += 1
 
-		dataFrameInicial["LONGITUDE"] = pandas.Series(listaLongitude)
 		dataFrameInicial["LATITUDE"] = pandas.Series(listaLatitude)
+		dataFrameInicial["LONGITUDE"] = pandas.Series(listaLongitude)
 
 		# - Salva, por fim, o novo arquivo
 		dataFrameInicial.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv", index=False)
