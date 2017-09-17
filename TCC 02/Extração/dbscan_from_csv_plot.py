@@ -55,7 +55,7 @@ for a in labels:
 # #############################################################################
 # Save the cluster_id in new column in CSV file
 novoFrame["CLUSTER"] = pandas.Series(listaFlor)
-novoFrame.to_csv("./flor-janeiro.csv", index=False)
+novoFrame.to_csv("./eps="+str(epsilon*kms_per_radian)+"min_samples="+str(minimo_samples)+"-janeiro.csv", index=False)
 
 # Number of clusters in labels, ignoring noise if present.
 n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
