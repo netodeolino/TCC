@@ -20,7 +20,7 @@ from collections import defaultdict
 
 # #############################################################################
 # Read the file CSV and save in frame
-dataFrame = pandas.read_csv("./janeiro-crimes.csv")
+dataFrame = pandas.read_csv("./jan-crimes.csv")
 novoFrame = dataFrame.copy()
 
 X = []

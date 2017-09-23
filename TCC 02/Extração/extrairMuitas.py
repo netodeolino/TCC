@@ -195,7 +195,7 @@ class Extrator(object):
 
 
 	# - Função para salvar as datas dos crimes
-	def inserirData(self, arrayLinha, dia, mes, dataFrameOriginal):
+	def inserirData(self, arrayLinha, dia, mes, dataFrame):
 		listaDeDatas = []
 		
 		if mes == "jan":
@@ -210,12 +210,12 @@ class Extrator(object):
 		for linha in arrayLinha:
 			listaDeDatas.append(data)
 
-		dataFrameOriginal["DATA"] = pandas.Series(listaDeDatas)
+		dataFrame["DATA"] = pandas.Series(listaDeDatas)
 
 
 	# - Recebe uma entidade e, a partir dos dados HISTÓRICO DA OCORRÊNCIA, recupera os dados da entidade e salva
 	#   em um DataFrame
-	def inserirValorNoDataFrame(self, entidade, arrayLinha, dataFrameOriginal):
+	def inserirValorNoDataFrame(self, entidade, arrayLinha, dataFrame):
 		listValores = []
 
 		t = 0
@@ -224,7 +224,7 @@ class Extrator(object):
 			listValores.append(valor)
 			t += 1
 
-		dataFrameOriginal[entidade] = pandas.Series(listValores)
+		dataFrame[entidade] = pandas.Series(listValores)
 
 
 	def main(self):
@@ -262,10 +262,8 @@ class Extrator(object):
 				self.inserirValorNoDataFrame(self.entidades[e], arrayLinha, dataFrameOriginal)
 				e += 1
 
-			
 			# - Cria uma coluna para data e insere nas linhas os valores correspondentes
 			self.inserirData(arrayLinha, dia, mes, dataFrameOriginal)
-
 
 			# - Última etapa, salvar todas as alterações realizadas em novos arquivos CSVs
 			dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv", index=False)
