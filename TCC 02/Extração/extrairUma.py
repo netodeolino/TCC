@@ -3,7 +3,6 @@ import numpy as np
 import pandas
 
 
-# - Variáveis globais (global nomeVariavel)
 ENTIDADE_NAO_ENCOTRADA = -1
 ENTIDADE_VAZIA = "NÃO POSSUI ESSA INFORMAÇÃO"
 
@@ -20,7 +19,7 @@ lista = []
 arrayLinha = []
 entidades = [
 				"LOCAL:", "SUSPEITO:", "VEÍCULO:", "VÍTIMA:", "VÍTIMAS:", "VÍTIMA FATAL:", "ARMA APREENDIDA:",
-				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "OBJETOS:", "SUSPEITOS:"
+				"MATERIAL APREENDIDO:", "PLACA:", "VÍTIMAS LESIONADAS:", "SUSPEITOS:"
 			]
 
 # - Tirando as outras 2 colunas
@@ -39,7 +38,6 @@ for k in lista:
 	arrayLinha.append(k.values)
 
 
-# - arrayLinha[posicao] é do tipo narra, por isso, para facilitar, é feito a conversão para string
 def transformaArrayEmString(lista):
 	aux = ""
 	for strCelula in lista:
@@ -48,7 +46,6 @@ def transformaArrayEmString(lista):
 	return aux
 
 
-# - Início real da função de extração
 # - Precisa fazer o processo de excluir da string os dados retornados aqui
 def extrair(string, inicio, entidade):
 	aux = ""
@@ -74,8 +71,6 @@ def extrair(string, inicio, entidade):
 	print (entidade + " " + aux)
 
 
-# - Início real da função de extração
-# - Precisa fazer o processo de excluir da string os dados retornados aqui
 def extrairRetornar(string, inicio):
 	aux = ""
 	
@@ -144,7 +139,6 @@ def extrairUmaEntidade(arrayLinha, entidade):
 		t += 1
 
 
-# - Extrai várias entidades, porém tem que tratar o caso de quando a entidade não existe
 def extrairTodasEntidadesDeUmaLinha(string):
 
 	listaEntidades = []

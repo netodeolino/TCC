@@ -6,8 +6,10 @@ arrayDeFrames = []
 
 
 def main():
+	mes = "jan"
+	
 	# Ler arquivo e salva no frame
-	dataFrame = pandas.read_csv("./janeiro-crimes.csv")
+	dataFrame = pandas.read_csv("./"+mes+"-crimes.csv")
 
 	# Cria o indice e preenche (ID)
 	dataFrame['ID'] = range(1, len(dataFrame) + 1)
@@ -18,7 +20,7 @@ def main():
 				'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'DATA', 'LATITUDE', 'LONGITUDE']]
 
 	# Salva o novo arquivo CSV
-	dataFrame.to_csv("./janeiro-crimes.csv", index=False)
+	dataFrame.to_csv("./"+mes+"-crimes.csv", index=False)
 
 if __name__ == '__main__':
 	main()

@@ -18,7 +18,7 @@ def main():
 		arrayDeFrames.append(dataFrame)
 
 	result = pandas.concat(arrayDeFrames)
-	result.to_csv("./janeiro-crimes.csv", index=False)
+	result.to_csv("./"+mes+"-crimes.csv", index=False)
 
 if __name__ == '__main__':
 	main()
