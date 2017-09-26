@@ -26,7 +26,7 @@ novoFrame = dataFrame.copy()
 X = []
 
 for i, row in dataFrame.iterrows():
-  if row['LONGITUDE'] != "NÃO POSSUI ESSA INFORMAÇÃO":
+  if row['LONGITUDE'] != "null":
     X.append([float(row['LATITUDE']), float(row['LONGITUDE'])])
     #print (row['LONGITUDE'], row['LATITUDE'])
 
