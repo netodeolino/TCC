@@ -35,7 +35,7 @@ class Grupo(object):
 		# Reestrutura as colunas
 		novoDataFrame = novoDataFrame[['ID', 'FONTE', 'NATUREZA DA OCORRÊNCIA', 'HISTÓRICO DA OCORRÊNCIA', 'LOCAL:', 'SUSPEITO:',
 				'VEÍCULO:', 'VÍTIMA:', 'VÍTIMAS:', 'VÍTIMA FATAL:', 'ARMA APREENDIDA:', 'MATERIAL APREENDIDO:',
-				'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'DATA', 'LATITUDE', 'LONGITUDE']]
+				'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'DATA', 'LATITUDE', 'LONGITUDE', 'HORARIO']]
 
 		# - Salva frame
 		novoDataFrame.to_csv("./"+mes+"-crimes.csv", index=False)
