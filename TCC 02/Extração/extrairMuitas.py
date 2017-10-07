@@ -227,6 +227,66 @@ class Extrator(object):
 		dataFrame[entidade] = pandas.Series(listValores)
 
 
+	def extrairHistoricoDaOcorrencia(self, dataFrame, dataFrameOriginal):
+		dataFrame = dataFrame.drop('FONTE', 1)
+		dataFrame = dataFrame.drop('NATUREZA DA OCORRÊNCIA', 1)
+		
+		lista = []
+		arrayLinha = []
+
+		for i, row in dataFrame.iterrows():
+			if row['HISTÓRICO DA OCORRÊNCIA']:
+				lista.append(dataFrame.loc[i,:])
+
+		# - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
+		for k in lista:
+			arrayLinha.append(k.values)
+
+		# - Para cada entidade insere o valor das linhas no DataFrame que vai, no fim, ser salvo
+		e = 0
+		while e < len(self.entidades):
+			self.inserirValorNoDataFrame(self.entidades[e], arrayLinha, dataFrameOriginal)
+			e += 1
+
+
+	def extrairNaturezaDaOcorrencia(self, dataFrame, dataFrameOriginal):
+		dataFrame = dataFrame.drop('FONTE', 1)
+		dataFrame = dataFrame.drop('HISTÓRICO DA OCORRÊNCIA', 1)
+
+		listaHorario = []
+		arrayLinhaHorario = []
+
+		# - Salva em 'lista' as linhas de NATUREZA DA OCORRÊNCIA
+		for i, row in dataFrame.iterrows():
+			if row['NATUREZA DA OCORRÊNCIA']:
+				listaHorario.append(dataFrame.loc[i,:])
+
+		# - Salva em 'arrayLinhaHorario' o conteúdo das linhas de 'listaHorario'
+		for k in listaHorario:
+			arrayLinhaHorario.append(k.values)
+
+		self.extrairHorario(arrayLinhaHorario, dataFrameOriginal)
+
+
+	def extrairHorario(self, arrayLinha, dataFrame):
+		listaDeHorarios = []
+		
+		t = 0
+		while t < len(arrayLinha):
+			stringLinha = self.transformaArrayEmString(arrayLinha[t])
+			fim = len(stringLinha)
+
+			aux = ""
+			x = 5
+			while x > 0:
+				aux += stringLinha[fim-x]
+				x -= 1
+			listaDeHorarios.append(aux)
+			t += 1
+		
+		dataFrame["HORARIO"] = pandas.Series(listaDeHorarios)
+
+
 	def main(self):
 
 		# - Valores para agilizar no processo de ler vários .CSV's por vez
@@ -237,34 +297,10 @@ class Extrator(object):
 		for dia in listDiasMes:
 			dataFrameInicial = pandas.read_csv("./tabula-" + dia + "-" + mes + "-17.csv")
 			dataFrameOriginal = dataFrameInicial.copy()
-
-			lista = []
-			arrayLinha = []
-
-			# - Tirando as outras 2 colunas
-			del dataFrameInicial["FONTE"]
-			del dataFrameInicial["NATUREZA DA OCORRÊNCIA"]
-
-
-			# - Salva em 'lista' as linhas de HISTÓRICO DA OCORRÊNCIA
-			for i, row in dataFrameInicial.iterrows():
-				if row['HISTÓRICO DA OCORRÊNCIA']:
-					lista.append(dataFrameInicial.loc[i,:])
-
-
-			# - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
-			for k in lista:
-				arrayLinha.append(k.values)
-
-			# - Para cada entidade insere o valor das linhas no DataFrame que vai, no fim, ser salvo
-			e = 0
-			while e < len(self.entidades):
-				self.inserirValorNoDataFrame(self.entidades[e], arrayLinha, dataFrameOriginal)
-				e += 1
-
-			# - Cria uma coluna para data e insere nas linhas os valores correspondentes
-			self.inserirData(arrayLinha, dia, mes, dataFrameOriginal)
-
+			
+			self.extrairHistoricoDaOcorrencia(dataFrameInicial, dataFrameOriginal)
+			self.extrairNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
+			
 			# - Última etapa, salvar todas as alterações realizadas em novos arquivos CSVs
 			dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv", index=False)
 

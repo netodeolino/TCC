@@ -38,8 +38,8 @@ X = np.asmatrix(X)
 kms_per_radian = 6371.0088
 
 # define epsilon and min_samples; converted epsilon to radians for use by haversine
-epsilon = 1.1 / kms_per_radian
-minimo_samples = 11
+epsilon = 0.5 / kms_per_radian
+minimo_samples = 5
 
 # Compute DBSCAN
 db = DBSCAN(eps=epsilon, min_samples=minimo_samples, metric='haversine').fit(np.radians(X))
