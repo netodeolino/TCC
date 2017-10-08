@@ -195,7 +195,21 @@ class Extrator(object):
 
 
 	# - Função para salvar as datas dos crimes
-	def inserirData(self, arrayLinha, dia, mes, dataFrame):
+	def inserirData(self, dia, mes, dataFrame, dataFrameOriginal):
+		dataFrame = dataFrame.drop('HISTÓRICO DA OCORRÊNCIA', 1)
+		dataFrame = dataFrame.drop('NATUREZA DA OCORRÊNCIA', 1)
+
+		lista = []
+		arrayLinha = []
+
+		for i, row in dataFrame.iterrows():
+			if row['FONTE']:
+				lista.append(dataFrame.loc[i,:])
+
+		# - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
+		for k in lista:
+			arrayLinha.append(k.values)
+
 		listaDeDatas = []
 		
 		if mes == "jan":
@@ -210,7 +224,7 @@ class Extrator(object):
 		for linha in arrayLinha:
 			listaDeDatas.append(data)
 
-		dataFrame["DATA"] = pandas.Series(listaDeDatas)
+		dataFrameOriginal["DATA"] = pandas.Series(listaDeDatas)
 
 
 	# - Recebe uma entidade e, a partir dos dados HISTÓRICO DA OCORRÊNCIA, recupera os dados da entidade e salva
@@ -300,6 +314,9 @@ class Extrator(object):
 			
 			self.extrairHistoricoDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 			self.extrairNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
+
+			# - Cria uma coluna para data e insere nas linhas os valores correspondentes
+			self.inserirData(dia, mes, dataFrameInicial, dataFrameOriginal)
 			
 			# - Última etapa, salvar todas as alterações realizadas em novos arquivos CSVs
 			dataFrameOriginal.to_csv("./novo-tabula-" + dia + "-" + mes + "-17.csv", index=False)
