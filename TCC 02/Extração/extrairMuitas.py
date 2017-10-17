@@ -280,6 +280,7 @@ class Extrator(object):
 			arrayLinhaHorario.append(k.values)
 
 		self.extrairHorario(arrayLinhaHorario, dataFrameOriginal)
+		self.removerHora(arrayLinhaHorario, dataFrameOriginal)
 
 
 	def extrairHorario(self, arrayLinha, dataFrame):
@@ -299,6 +300,25 @@ class Extrator(object):
 			t += 1
 		
 		dataFrame["HORARIO"] = pandas.Series(listaDeHorarios)
+
+
+	def removerHora(self, arrayLinha, dataFrame):
+		lista = []
+		
+		t = 0
+		while t < len(arrayLinha):
+			stringLinha = self.transformaArrayEmString(arrayLinha[t])
+			fim = len(stringLinha) - 5
+
+			aux = ""
+			x = 0
+			while x < fim:
+				aux += stringLinha[x]
+				x += 1
+			lista.append(aux)
+			t += 1
+		
+		dataFrame["NATUREZA DA OCORRÊNCIA"] = pandas.Series(lista)
 
 
 	def main(self):
