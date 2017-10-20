@@ -5,16 +5,17 @@ import pandas
 class GrupoPorCluster(object):
 	
 	def teste(self):
-		dataFrame = pandas.read_csv("./janeiro.csv")
-		indices = dataFrame.groupby('CLUSTER').indices
-		#print (indices)
+		dataFrame = pandas.read_csv("./cluster-janeiro.csv")
+		indices = dataFrame.groupby('CLUSTER').size().reset_index(name='COUNTS')
 		
-		for i in indices:
-			novo = dataFrame[dataFrame['CLUSTER'] == i]
-			#print ('------------------------------------------------------------------------------------------')
-			#print (i)
-			novo.to_csv("./indice=" + str(i) + "-grupos-janeiro.csv", index=False)
+		array = []
+		for df in dataFrame['CLUSTER']:
+			for i in indices.iterrows():
+				if i[1]['CLUSTER'] == df:
+					array.append(i[1]['COUNTS'])
 
+		dataFrame["COUNT"] = pandas.Series(array)
+		dataFrame.to_csv("./cluster-janeiro.csv", index=False)
 
 if __name__ == '__main__':
 	ts = GrupoPorCluster()
