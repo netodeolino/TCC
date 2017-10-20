@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import numpy as np
 import pandas
 
 class GrupoPorCluster(object):
