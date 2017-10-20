@@ -1,9 +1,9 @@
 # -*- coding: UTF-8 -*-
 import pandas
 
-class DensidadePorCluster(object):
+class QuantidadePorCluster(object):
 	
-	def calcularDensidade(self):
+	def calcularQuantidade(self):
 		dataFrame = pandas.read_csv("./cluster-janeiro.csv")
 		indices = dataFrame.groupby('CLUSTER').size().reset_index(name='COUNTS')
 		
@@ -17,5 +17,5 @@ class DensidadePorCluster(object):
 		dataFrame.to_csv("./cluster-janeiro.csv", index=False)
 
 if __name__ == '__main__':
-	ts = DensidadePorCluster()
-	ts.calcularDensidade()
+	ts = QuantidadePorCluster()
+	ts.calcularQuantidade()
