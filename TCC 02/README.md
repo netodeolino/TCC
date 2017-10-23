@@ -1,5 +1,5 @@
-# Tema: Análise de Criminalidade via Clusterização Espacial baseada em densidade
-## Autor: Neto Deolino
+# Análise de Criminalidade via Clusterização Espacial baseada em densidade
 
-
-### Referências
+#### Dados de crimes ocorridos em Fortaleza, Ceará.
+Secretaria de Segurança Pública e Defesa Social (SSPDS)
+* [Dados](http://www.sspds.ce.gov.br/noticiaDetalhada.do?tipoPortal=1&codNoticia=2142&titulo=Reportagens&action=detail)

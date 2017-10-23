@@ -66,15 +66,16 @@ class Extract(object):
 
 
 	# - Função para salvar as datas dos crimes
-	def inserirData(self, dia, mes, dataFrame, dataFrameOriginal):
-		dataFrame = dataFrame.drop('HISTÓRICO DA OCORRÊNCIA', 1)
-		dataFrame = dataFrame.drop('NATUREZA DA OCORRÊNCIA', 1)
+	def inserirData(self, file, dataFrame, dataFrameOriginal):
+		dataFrame = dataFrame.loc[:, dataFrame.columns == "FONTE"]
+
+		dataArray = file.split("-")
 
 		lista = []
 		arrayLinha = []
-
+		
 		for i, row in dataFrame.iterrows():
-			if row['FONTE']:
+			if row["FONTE"]:
 				lista.append(dataFrame.loc[i,:])
 
 		# - Salva em 'arrayLinha' o conteúdo das linhas de 'lista'
@@ -82,15 +83,33 @@ class Extract(object):
 			arrayLinha.append(k.values)
 
 		listaDeDatas = []
-		
-		if mes == "jan":
-			data = dia + "/01/2017"
-		elif mes == "fev":
-			data = dia + "/02/2017"
-		elif mes == "mar":
-			data = dia + "/03/2017"
+
+		if dataArray[2] == "jan":
+			data = dataArray[1] + "/01/" + dataArray[3]
+		elif dataArray[2] == "fev":
+			data = dataArray[1] + "/02/" + dataArray[3]
+		elif dataArray[2] == "mar":
+			data = dataArray[1] + "/03/" + dataArray[3]
+		elif dataArray[2] == "abr":
+			data = dataArray[1] + "/04/" + dataArray[3]
+		elif dataArray[2] == "mai":
+			data = dataArray[1] + "/05/" + dataArray[3]
+		elif dataArray[2] == "jun":
+			data = dataArray[1] + "/06/" + dataArray[3]
+		elif dataArray[2] == "jul":
+			data = dataArray[1] + "/07/" + dataArray[3]
+		elif dataArray[2] == "ago":
+			data = dataArray[1] + "/08/" + dataArray[3]
+		elif dataArray[2] == "set":
+			data = dataArray[1] + "/09/" + dataArray[3]
+		elif dataArray[2] == "out":
+			data = dataArray[1] + "/10/" + dataArray[3]
+		elif dataArray[2] == "nov":
+			data = dataArray[1] + "/11/" + dataArray[3]
+		elif dataArray[2] == "dez":
+			data = dataArray[1] + "/12/" + dataArray[3]
 		else:
-			data = dia + "/04/2017"
+			data = "null"
 
 		for linha in arrayLinha:
 			listaDeDatas.append(data)
@@ -228,9 +247,7 @@ class Extract(object):
 			else:
 				self.extrairHistoricoDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.extrairNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
-
-			# - Cria uma coluna para data e insere nas linhas os valores correspondentes
-			#self.inserirData(file, mes, dataFrameInicial, dataFrameOriginal)
+				self.inserirData(file, dataFrameInicial, dataFrameOriginal)
 
 			# - Última etapa, salvar todas as alterações realizadas em novos arquivos CSVs
 			dataFrameOriginal.to_csv("./novo-" + file + ".csv", index=False)
