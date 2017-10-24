@@ -7,3 +7,13 @@
 	da coluna e o método com as regras de extração.
 	- O método receberá como parâmetros uma string, referente a uma linha/coluna dos dados e a posição
 	inicial do texto a partir da entidade repassada para o método "main()".
+
+## Requisitos
+* [Python 3.5](https://www.python.org/downloads/release/python-350/)
+* [Pandas](https://pandas.pydata.org/pandas-docs/stable/install.html)
+
+### Como executar
+No terminal e na pasta onde estão os arquivos execute o comando:
+```
+python3.5 mainExtrairUmMes.py
+```
