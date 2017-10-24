@@ -1,18 +1,7 @@
 # -*- coding: UTF-8 -*-
 from extrairUmMes import Extract
+from methodExtract import yourMethodExtractExample
 
-def yourMethodExtractExample(string, ini):
-	text = ""
-	i = ini;
-
-	while i < len(string):
-		if (string[i] != " "):
-			text += string[i]
-		if (string[i] == " "):
-			break
-		i += 1
-
-	return text
 
 exct = Extract(["BIBLIOTECA", "Biblioteca"])
 exct.main(["biblioteca-detalhado"], "Nome biblioteca", yourMethodExtractExample)
