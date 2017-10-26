@@ -15,5 +15,5 @@
 ### Como executar
 No terminal e na pasta onde estão os arquivos execute o comando:
 ```
-python3.5 mainExtrairUmMes.py
+python3.5 mainExtractMany.py
 ```

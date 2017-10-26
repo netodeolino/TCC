@@ -45,21 +45,21 @@ class Extract(object):
 		return i
 
 
-	def extractOneEntityFromRow(self, arrayLinha, entity, position, externalMethod=False):
-		stringLinha = self.arrayToString(arrayLinha[position])
+	def extractOneEntityFromRow(self, arrayRow, entity, position, externalMethod=False):
+		stringRow = self.arrayToString(arrayRow[position])
 
-		startingPosition = stringLinha.find(entity)
+		startingPosition = stringRow.find(entity)
 
 		if (startingPosition == self.ENTITY_NOT_FOUND):
 			return self.ENTITY_NULL
 		else:
 			startingPosition = startingPosition + len(entity)
-			startingPosition = self.removeSpaceBeginning(stringLinha, startingPosition)
+			startingPosition = self.removeSpaceBeginning(stringRow, startingPosition)
 			
 			if (externalMethod):
-				return externalMethod(stringLinha, startingPosition)
+				return externalMethod(stringRow, startingPosition)
 			else:
-				return self.extractSSPDS(stringLinha, startingPosition)
+				return self.extractSSPDS(stringRow, startingPosition)
 
 
 	def inserirDate(self, file, dataFrame, dataFrameOriginal):
@@ -132,18 +132,18 @@ class Extract(object):
 		dataFrame = dataFrame.loc[:, dataFrame.columns == 'HISTÓRICO DA OCORRÊNCIA']
 		
 		lista = []
-		arrayLinha = []
+		arrayRow = []
 
 		for i, row in dataFrame.iterrows():
 			if row['HISTÓRICO DA OCORRÊNCIA']:
 				lista.append(dataFrame.loc[i,:])
 
 		for k in lista:
-			arrayLinha.append(k.values)
+			arrayRow.append(k.values)
 
 		e = 0
 		while e < len(self.entities):
-			self.insertDataFrameValues(self.entities[e], arrayLinha, dataFrameOriginal)
+			self.insertDataFrameValues(self.entities[e], arrayRow, dataFrameOriginal)
 			e += 1
 
 
@@ -151,44 +151,44 @@ class Extract(object):
 		dataFrame = dataFrame.loc[:, dataFrame.columns == 'NATUREZA DA OCORRÊNCIA']
 
 		listaHorario = []
-		arrayLinhaHorario = []
+		arrayRowHorario = []
 
 		for i, row in dataFrame.iterrows():
 			if row['NATUREZA DA OCORRÊNCIA']:
 				listaHorario.append(dataFrame.loc[i,:])
 
 		for k in listaHorario:
-			arrayLinhaHorario.append(k.values)
+			arrayRowHorario.append(k.values)
 
-		self.extractTimeHour(arrayLinhaHorario, dataFrameOriginal)
-		self.removeTimeFromRow(arrayLinhaHorario, dataFrameOriginal)
+		self.extractTimeHour(arrayRowHorario, dataFrameOriginal)
+		self.removeTimeFromRow(arrayRowHorario, dataFrameOriginal)
 
 
 	def extractExternalMethod(self, dataFrame, dataFrameOriginal, column, externalMethod):
 		dataFrame = dataFrame.loc[:, dataFrame.columns == column]
 		
 		lista = []
-		arrayLinha = []
+		arrayRow = []
 		
 		for i, row in dataFrame.iterrows():
 			if row[column]:
 				lista.append(dataFrame.loc[i,:])
 
 		for k in lista:
-			arrayLinha.append(k.values)
+			arrayRow.append(k.values)
 
 		e = 0
 		while e < len(self.entities):
-			self.insertDataFrameValues(self.entities[e], arrayLinha, dataFrameOriginal, externalMethod)
+			self.insertDataFrameValues(self.entities[e], arrayRow, dataFrameOriginal, externalMethod)
 			e += 1
 		
 
-	def extractTimeHour(self, arrayLinha, dataFrame):
+	def extractTimeHour(self, arrayRow, dataFrame):
 		listaDeHorarios = []
 		t = 0
 
-		while t < len(arrayLinha):
-			strRow = self.arrayToString(arrayLinha[t])
+		while t < len(arrayRow):
+			strRow = self.arrayToString(arrayRow[t])
 			fim = len(strRow)
 
 			aux = ""
