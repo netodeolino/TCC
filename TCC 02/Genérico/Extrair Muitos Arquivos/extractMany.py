@@ -225,7 +225,7 @@ class Extract(object):
 		listFiles = files
 
 		for file in listFiles:
-			dataFrameInicial = pandas.read_csv("./" + file + ".csv")
+			dataFrameInicial = pandas.read_csv("./data/" + file + ".csv")
 			dataFrameOriginal = dataFrameInicial.copy()
 			
 			if (externalMethod and column):
@@ -235,4 +235,4 @@ class Extract(object):
 				self.extractNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.inserirDate(file, dataFrameInicial, dataFrameOriginal)
 
-			dataFrameOriginal.to_csv("./novo-" + file + ".csv", index=False)
+			dataFrameOriginal.to_csv("./data/novo-" + file + ".csv", index=False)

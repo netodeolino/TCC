@@ -7,7 +7,7 @@ class Tabula(object):
 	def convert(self, files, SSPDS=True):
 		for file in files:
 			if (SSPDS):
-				dataFrame = read_pdf(file+".pdf", lattice=True, pages=1)
+				dataFrame = read_pdf("./data/"+file+".pdf", lattice=True, pages=1)
 				
 				if dataFrame.columns[0] == "FORTALEZA":
 					dataFrame.columns = ["FONTE", "NATUREZA DA OCORRÊNCIA", "HISTÓRICO DA OCORRÊNCIA"]
@@ -28,6 +28,6 @@ class Tabula(object):
 					except Exception as e:
 						print ("")
 
-				dataFrame.to_csv("./tabula-"+file+".csv", index=False)
+				dataFrame.to_csv("./data/tabula-"+file+".csv", index=False)
 			else:
-				convert_into(file+".pdf", "tabula-"+file+".csv", output_format="csv")
+				convert_into("./data/"+file+".pdf", "./data/tabula-"+file+".csv", output_format="csv")

@@ -46,7 +46,7 @@ class Cluster(object):
 
 
   def main(self, fileName, newFileName, lat, lng, eps, minPoints):
-    dataFrame = pandas.read_csv("./" + fileName + ".csv")
+    dataFrame = pandas.read_csv("./data/" + fileName + ".csv")
     novoFrame = dataFrame.copy()
 
     X = []
@@ -73,7 +73,7 @@ class Cluster(object):
     	labelsList.append(a)
 
     novoFrame["CLUSTER"] = pandas.Series(labelsList)
-    novoFrame.to_csv("./" + newFileName + ".csv", index=False)
+    novoFrame.to_csv("./data/" + newFileName + ".csv", index=False)
 
     self.printLabels(labels, X, core_samples_mask)
 

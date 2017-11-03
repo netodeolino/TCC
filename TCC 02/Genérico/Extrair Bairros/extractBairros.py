@@ -54,9 +54,9 @@ class ExtractBairro(object):
 
 	def main(self, files):
 		for file in files:
-			dataFrameInicial = pandas.read_csv("./" + file + ".csv")
+			dataFrameInicial = pandas.read_csv("./data/" + file + ".csv")
 			dataFrameOriginal = dataFrameInicial.copy()
 			
 			self.extractBairro(dataFrameInicial, dataFrameOriginal)
 
-			dataFrameOriginal.to_csv("./" + file + ".csv", index=False)
+			dataFrameOriginal.to_csv("./data/" + file + ".csv", index=False)

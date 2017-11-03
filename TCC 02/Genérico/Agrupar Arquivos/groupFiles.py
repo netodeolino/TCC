@@ -13,7 +13,7 @@ class Group(object):
 
 	def main(self, files, filename, SSPDS=True):
 		for file in files:
-			dataFrame = pandas.read_csv("./" + file + ".csv")
+			dataFrame = pandas.read_csv("./data/" + file + ".csv")
 			if (SSPDS):
 				dataFrame = self.removeEmptyEntities(dataFrame)
 			
@@ -27,4 +27,4 @@ class Group(object):
 					'BAIRRO', 'SUSPEITO:', 'VEÍCULO:', 'VÍTIMA:', 'VÍTIMAS:', 'VÍTIMA FATAL:', 'ARMA APREENDIDA:',
 					'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORARIO', 'DATA', 'LATITUDE', 'LONGITUDE']]
 
-		newDataFrame.to_csv("./" + filename + ".csv", index=False)
+		newDataFrame.to_csv("./data/" + filename + ".csv", index=False)

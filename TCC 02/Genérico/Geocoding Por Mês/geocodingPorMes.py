@@ -30,7 +30,7 @@ class GeocodingAPI(object):
 		cidade = input("Digite o nome da cidade ou estado ao qual os dados serão buscados!\n")
 
 		for file in files:
-			dataFrameInicial = pandas.read_csv("./" + file + ".csv")
+			dataFrameInicial = pandas.read_csv("./data/" + file + ".csv")
 
 			novoFrame = dataFrameInicial[column]
 			listaLongitude = []
@@ -48,7 +48,7 @@ class GeocodingAPI(object):
 			dataFrameInicial["LONGITUDE"] = pandas.Series(listaLongitude)
 			
 			# - Salva, por fim, o novo arquivo
-			dataFrameInicial.to_csv("./" + file + ".csv", index=False)
+			dataFrameInicial.to_csv("./data/" + file + ".csv", index=False)
 
 
 
