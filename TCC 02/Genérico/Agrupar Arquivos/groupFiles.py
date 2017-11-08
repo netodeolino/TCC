@@ -4,7 +4,7 @@ import pandas
 class Group(object):
 	def __init__(self):
 		self.arrayDeFrames = []
-		self.ENTITY_NULL = "null"
+		self.ENTITY_NULL = "nulo"
 
 
 	def removeEmptyEntities(self, dataFrame):

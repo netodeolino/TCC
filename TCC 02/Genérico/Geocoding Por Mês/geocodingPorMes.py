@@ -4,7 +4,7 @@ import requests
 
 class GeocodingAPI(object):
 	def __init__(self):
-		self.ENTIDADE_VAZIA = "null"
+		self.ENTITY_NULL = "nulo"
 
 
 	# - Recebe uma string endereço e retorna a longitude e latitude da mesma
@@ -20,7 +20,7 @@ class GeocodingAPI(object):
 
 			return (longitude, latitude)
 		except Exception as e:
-			return (self.ENTIDADE_VAZIA, self.ENTIDADE_VAZIA)
+			return (self.ENTITY_NULL, self.ENTITY_NULL)
 
 
 	# - Função principal
@@ -49,6 +49,3 @@ class GeocodingAPI(object):
 			
 			# - Salva, por fim, o novo arquivo
 			dataFrameInicial.to_csv("./data/" + file + ".csv", index=False)
-
-
-

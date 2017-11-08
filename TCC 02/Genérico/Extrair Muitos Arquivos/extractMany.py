@@ -4,7 +4,7 @@ import pandas
 class Extract(object):
 	def __init__(self, entities):
 		self.ENTITY_NOT_FOUND = -1
-		self.ENTITY_NULL = "null"
+		self.ENTITY_NULL = "nulo"
 		self.entities = entities
 
 
@@ -104,7 +104,7 @@ class Extract(object):
 		elif dateArray[2] == "dez":
 			data = dateArray[1] + "/12/" + dateArray[3]
 		else:
-			data = "null"
+			data = self.ENTITY_NULL
 
 		for linha in arrayRow:
 			dateList.append(data)

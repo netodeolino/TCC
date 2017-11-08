@@ -51,7 +51,7 @@ class Cluster(object):
 
     X = []
     for i, row in dataFrame.iterrows():
-      if row[lng] != "null":
+      if row[lng] != "nulo":
         X.append([float(row[lat]), float(row[lng])])
 
     X = np.asmatrix(X)
@@ -79,4 +79,5 @@ class Cluster(object):
 
 if __name__ == '__main__':
   cl = Cluster()
-  cl.main("jan-crimes", "cluster-janeiro", "LATITUDE", "LONGITUDE", 0.5, 5)
+  cl.main("fileName", "newFileName", "LATITUDE", "LONGITUDE", 0.6, 5)
+  # fileName, newFileName, lat, lng, eps, minPoints
