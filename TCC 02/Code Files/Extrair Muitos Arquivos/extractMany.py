@@ -162,6 +162,21 @@ class Extract(object):
 
 		self.extractTimeHour(arrayRowHorario, dataFrameOriginal)
 		self.removeTimeFromRow(arrayRowHorario, dataFrameOriginal)
+		self.extractFlagrante(arrayRowHorario, dataFrameOriginal)
+
+
+	def extractFlagrante(self, arrayRow, dataFrame):
+		lista = []
+		t = 0
+		while t < len(arrayRow):
+			strRow = self.arrayToString(arrayRow[t])
+			start = strRow.find('(FLAGRANTE)')
+			if start == -1:
+				lista.append('FALSE')
+			else:
+				lista.append('TRUE')
+			t += 1
+		dataFrame["FLAGRANTE"] = pandas.Series(lista)
 
 
 	def extractExternalMethod(self, dataFrame, dataFrameOriginal, column, externalMethod):
@@ -208,6 +223,7 @@ class Extract(object):
 		t = 0
 		while t < len(arrayRow):
 			strRow = self.arrayToString(arrayRow[t])
+			strRow = strRow.replace("(FLAGRANTE)", "")
 			fim = len(strRow) - 5
 
 			text = ""
