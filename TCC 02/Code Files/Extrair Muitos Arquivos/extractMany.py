@@ -172,9 +172,9 @@ class Extract(object):
 			strRow = self.arrayToString(arrayRow[t])
 			start = strRow.find('(FLAGRANTE)')
 			if start == -1:
-				lista.append('FALSE')
+				lista.append('NÃO')
 			else:
-				lista.append('TRUE')
+				lista.append('SIM')
 			t += 1
 		dataFrame["FLAGRANTE"] = pandas.Series(lista)
 
@@ -246,9 +246,17 @@ class Extract(object):
 			
 			if (externalMethod and column):
 				self.extractExternalMethod(dataFrameInicial, dataFrameOriginal, column, externalMethod)
+				dataFrameNew = dataFrameOriginal
 			else:
 				self.extractHistoricoDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.extractNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.inserirDate(file, dataFrameInicial, dataFrameOriginal)
 
-			dataFrameOriginal.to_csv("./data/novo-" + file + ".csv", index=False)
+				dataFrameNew = dataFrameOriginal.loc[:, dataFrameOriginal.columns != 'NATUREZA DA OCORRÊNCIA']
+				dataFrameNew['NATUREZA DA OCORRÊNCIA'] = dataFrameOriginal['NATUREZA DA OCORRÊNCIA'].str.strip()
+
+				dataFrameNew = dataFrameNew[['FONTE', 'FLAGRANTE', 'NATUREZA DA OCORRÊNCIA', 'HISTÓRICO DA OCORRÊNCIA', 'LOCAL:',
+						'SUSPEITO:', 'VEÍCULO:', 'VÍTIMA:', 'VÍTIMAS:', 'VÍTIMA FATAL:', 'ARMA APREENDIDA:',
+						'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORARIO', 'DATA']]
+
+			dataFrameNew.to_csv("./data/novo-" + file + ".csv", index=False)

@@ -23,7 +23,7 @@ class Group(object):
 		newDataFrame['ID'] = range(1, len(newDataFrame) + 1)
 
 		if (SSPDS):
-			newDataFrame = newDataFrame[['ID', 'FONTE', 'NATUREZA DA OCORRÊNCIA', 'HISTÓRICO DA OCORRÊNCIA', 'LOCAL:',
+			newDataFrame = newDataFrame[['ID', 'FONTE', 'FLAGRANTE', 'NATUREZA DA OCORRÊNCIA', 'HISTÓRICO DA OCORRÊNCIA', 'LOCAL:',
 					'BAIRRO', 'SUSPEITO:', 'VEÍCULO:', 'VÍTIMA:', 'VÍTIMAS:', 'VÍTIMA FATAL:', 'ARMA APREENDIDA:',
 					'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORARIO', 'DATA', 'LATITUDE', 'LONGITUDE']]
 
