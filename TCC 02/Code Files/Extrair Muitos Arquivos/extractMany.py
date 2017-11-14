@@ -200,6 +200,7 @@ class Extract(object):
 
 	def extractTimeHour(self, arrayRow, dataFrame):
 		listaDeHorarios = []
+		listaDeMinutos = []
 		t = 0
 
 		while t < len(arrayRow):
@@ -211,10 +212,12 @@ class Extract(object):
 			while x > 0:
 				aux += strRow[fim-x]
 				x -= 1
-			listaDeHorarios.append(aux)
+			listaDeHorarios.append(aux[:2])
+			listaDeMinutos.append(aux[3:])
 			t += 1
 		
-		dataFrame["HORARIO"] = pandas.Series(listaDeHorarios)
+		dataFrame["HORA"] = listaDeHorarios
+		dataFrame["MINUTO"] = listaDeMinutos
 
 
 	def removeTimeFromRow(self, arrayRow, dataFrame):
@@ -257,6 +260,6 @@ class Extract(object):
 
 				dataFrameNew = dataFrameNew[['FONTE', 'FLAGRANTE', 'NATUREZA DA OCORRÊNCIA', 'HISTÓRICO DA OCORRÊNCIA', 'LOCAL:',
 						'SUSPEITO:', 'VEÍCULO:', 'VÍTIMA:', 'VÍTIMAS:', 'VÍTIMA FATAL:', 'ARMA APREENDIDA:',
-						'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORARIO', 'DATA']]
+						'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORA', 'MINUTO', 'DATA']]
 
 			dataFrameNew.to_csv("./data/novo-" + file + ".csv", index=False)

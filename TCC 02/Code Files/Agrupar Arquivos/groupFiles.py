@@ -25,6 +25,6 @@ class Group(object):
 		if (SSPDS):
 			newDataFrame = newDataFrame[['ID', 'FONTE', 'FLAGRANTE', 'NATUREZA DA OCORRÊNCIA', 'HISTÓRICO DA OCORRÊNCIA', 'LOCAL:',
 					'BAIRRO', 'SUSPEITO:', 'VEÍCULO:', 'VÍTIMA:', 'VÍTIMAS:', 'VÍTIMA FATAL:', 'ARMA APREENDIDA:',
-					'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORARIO', 'DATA', 'LATITUDE', 'LONGITUDE']]
+					'MATERIAL APREENDIDO:', 'PLACA:', 'VÍTIMAS LESIONADAS:', 'SUSPEITOS:', 'HORA', 'MINUTO', 'DATA', 'LATITUDE', 'LONGITUDE']]
 
 		newDataFrame.to_csv("./data/" + filename + ".csv", index=False)
