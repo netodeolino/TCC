@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 import pandas
+import unicodedata
+import string
 
 class Extract(object):
 	def __init__(self, entities):
@@ -28,6 +30,11 @@ class Extract(object):
 		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ç", "C")
 		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ê", "E")
 		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ô", "O")
+
+
+	def replaces(self, dataFrame):
+		dataFrame['NATUREZA DA OCORRÊNCIA'] = dataFrame['NATUREZA DA OCORRÊNCIA'].str.replace(u"MORTES", "MORTE")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"MORTES", "MORTE")
 
 
 	def extractSSPDS(self, string, start):
@@ -267,6 +274,8 @@ class Extract(object):
 			else:
 				self.removeAccents(dataFrameInicial)
 				self.removeAccents(dataFrameOriginal)
+				self.replaces(dataFrameInicial)
+				self.replaces(dataFrameOriginal)
 				self.extractHistoricoDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.extractNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.inserirDate(file, dataFrameInicial, dataFrameOriginal)
