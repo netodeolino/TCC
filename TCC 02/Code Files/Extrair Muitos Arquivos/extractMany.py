@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 import pandas
+import unicodedata
+import string
 
 class Extract(object):
 	def __init__(self, entities):
@@ -14,6 +16,20 @@ class Extract(object):
 			for strIterator in strCell:
 				text += strIterator
 		return text
+
+
+	def removeAccents(self, dataFrame):
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ú", "U")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"É", "E")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Á", "A")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ó", "O")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Í", "I")
+		
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Â", "A")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ã", "A")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ç", "C")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ê", "E")
+		dataFrame['HISTÓRICO DA OCORRÊNCIA'] = dataFrame['HISTÓRICO DA OCORRÊNCIA'].str.replace(u"Ô", "O")
 
 
 	def extractSSPDS(self, string, start):
@@ -251,6 +267,8 @@ class Extract(object):
 				self.extractExternalMethod(dataFrameInicial, dataFrameOriginal, column, externalMethod)
 				dataFrameNew = dataFrameOriginal
 			else:
+				self.removeAccents(dataFrameInicial)
+				self.removeAccents(dataFrameOriginal)
 				self.extractHistoricoDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.extractNaturezaDaOcorrencia(dataFrameInicial, dataFrameOriginal)
 				self.inserirDate(file, dataFrameInicial, dataFrameOriginal)
