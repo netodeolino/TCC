@@ -1,7 +1,5 @@
 # -*- coding: UTF-8 -*-
 import pandas
-import unicodedata
-import string
 
 class Extract(object):
 	def __init__(self, entities):
